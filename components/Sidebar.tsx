@@ -10,11 +10,8 @@ export default function Sidebar() {
       <Link href="/dashboard" className="hover:text-gray-300">
         Dashboard
       </Link>
-      <Link href="/dashboard/blog" className="hover:text-gray-300">
-        Blog Generator
-      </Link>
-      <Link href="/dashboard/youtube" className="hover:text-gray-300">
-        YouTube Script
+      <Link href="/dashboard/generate" className="hover:text-gray-300">
+        Content Generator
       </Link>
       <Link href="/dashboard/history" className="hover:text-gray-300">
         History
