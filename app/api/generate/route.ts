@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import Groq from "groq-sdk";
+import { PrismaClient } from "@prisma/client";
+import { auth } from "@clerk/nextjs/server";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const prisma = new PrismaClient();
 
 const promptTemplates: Record<string, string> = {
   blog: "Write a detailed, well-structured blog post about:",
@@ -20,6 +23,12 @@ const lengthGuides: Record<string, string> = {
 
 export async function POST(req: NextRequest) {
   try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { topic, contentType, tone, length } = await req.json();
 
     const instruction = promptTemplates[contentType] || promptTemplates.blog;
@@ -39,6 +48,18 @@ export async function POST(req: NextRequest) {
     });
 
     const text = completion.choices[0]?.message?.content || "";
+
+    // Save to database
+    await prisma.content.create({
+      data: {
+        userId,
+        contentType,
+        tone,
+        length,
+        topic,
+        result: text,
+      },
+    });
 
     return NextResponse.json({ result: text });
   } catch (error) {
