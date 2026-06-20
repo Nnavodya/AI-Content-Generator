@@ -4,7 +4,9 @@ import { PrismaClient } from "@prisma/client";
 import { auth } from "@clerk/nextjs/server";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasourceUrl: process.env.DATABASE_URL,
+});
 
 const promptTemplates: Record<string, string> = {
   blog: "Write a detailed, well-structured blog post about:",
