@@ -3,17 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-const contentTypes = [
-  { value: "blog", label: "Blog Post" },
-  { value: "article", label: "Article" },
-  { value: "social", label: "Social Media Post" },
-  { value: "email", label: "Email" },
-  { value: "product", label: "Product Description" },
-  { value: "caption", label: "Caption" },
-];
-
-export default function GeneratePage() {
-  const [contentType, setContentType] = useState("blog");
+export default function BlogGeneratorPage() {
   const [topic, setTopic] = useState("");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,7 +17,9 @@ export default function GeneratePage() {
       const res = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic, contentType }),
+        body: JSON.stringify({
+          prompt: `Write a detailed blog post about: ${topic}`,
+        }),
       });
 
       const data = await res.json();
@@ -42,32 +34,18 @@ export default function GeneratePage() {
 
   return (
     <div className="max-w-3xl">
-      <h1 className="text-2xl font-bold mb-4">AI Content Generator</h1>
+      <h1 className="text-2xl font-bold mb-4">Blog Generator</h1>
 
-      <label className="block mb-2 font-medium">Content Type</label>
-      <select
-        className="w-full border rounded-lg p-2 mb-4"
-        value={contentType}
-        onChange={(e) => setContentType(e.target.value)}
-      >
-        {contentTypes.map((type) => (
-          <option key={type.value} value={type.value}>
-            {type.label}
-          </option>
-        ))}
-      </select>
-
-      <label className="block mb-2 font-medium">Topic / Prompt</label>
       <textarea
         className="w-full border rounded-lg p-3 mb-4"
         rows={3}
-        placeholder="Enter your topic..."
+        placeholder="Enter your blog topic..."
         value={topic}
         onChange={(e) => setTopic(e.target.value)}
       />
 
       <Button onClick={handleGenerate} disabled={loading}>
-        {loading ? "Generating..." : "Generate Content"}
+        {loading ? "Generating..." : "Generate Blog"}
       </Button>
 
       {result && (
