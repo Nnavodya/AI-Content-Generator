@@ -21,6 +21,8 @@ interface ContentItem {
   length: string;
   topic: string;
   result: string;
+  keywords: string[];
+  audience: string | null;
   createdAt: string;
 }
 
@@ -213,6 +215,18 @@ export default function HistoryPage() {
                       </span>
                     </div>
                     <p className="font-medium truncate">{item.topic}</p>
+                    {item.keywords?.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-1.5">
+                        {item.keywords.map((kw) => (
+                          <span
+                            key={kw}
+                            className="text-xs rounded-full bg-muted px-2 py-0.5 text-muted-foreground"
+                          >
+                            {kw}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                     <p
                       className={cn(
                         "text-sm text-muted-foreground mt-1 whitespace-pre-wrap",
