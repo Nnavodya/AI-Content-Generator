@@ -27,7 +27,7 @@ export default function Sidebar() {
   const { signOut } = useClerk();
 
   return (
-    <aside className="w-64 h-screen bg-white border-r border-border flex flex-col">
+    <aside className="w-64 h-screen sticky top-0 bg-white border-r border-border flex flex-col">
       <div className="px-5 py-5 border-b border-border">
         <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
           <span className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-purple-600 text-white">
