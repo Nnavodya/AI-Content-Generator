@@ -14,5 +14,7 @@ model Content {
   length      String
   topic       String
   result      String
+  keywords    String[] @default([])
+  audience    String?
   createdAt   DateTime @default(now())
 }
