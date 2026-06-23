@@ -80,16 +80,13 @@ export default function HistoryPage() {
   };
 
   useEffect(() => {
-    fetchHistory();
-  }, []);
-
-  // debounce search-as-you-type
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchHistory(search);
-    }, 400);
+    const timer = setTimeout(
+      () => {
+        fetchHistory(search);
+      },
+      search ? 400 : 0
+    );
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   const handleCopy = async (item: ContentItem) => {
