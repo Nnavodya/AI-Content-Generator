@@ -79,6 +79,8 @@ export async function POST(req: NextRequest) {
         length,
         topic,
         result: text,
+        keywords: Array.isArray(keywords) ? keywords : [],
+        audience: audience || null,
       },
     });
 
