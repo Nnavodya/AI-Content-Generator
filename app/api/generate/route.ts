@@ -34,13 +34,29 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { topic, contentType, tone, length } = await req.json();
+    const { topic, contentType, tone, length, keywords, audience } =
+      await req.json();
 
     const instruction = promptTemplates[contentType] || promptTemplates.blog;
     const lengthGuide = lengthGuides[length] || lengthGuides.medium;
     const toneGuide = tone ? `Use a ${tone} tone.` : "";
+    const keywordGuide =
+      Array.isArray(keywords) && keywords.length > 0
+        ? `Naturally incorporate these target keywords: ${keywords.join(", ")}.`
+        : "";
+    const audienceGuide = audience
+      ? `Write for this target audience: ${audience}.`
+      : "";
 
-    const finalPrompt = `${instruction} ${topic}. ${toneGuide} ${lengthGuide}`;
+    const finalPrompt = [
+      `${instruction} ${topic}.`,
+      toneGuide,
+      audienceGuide,
+      keywordGuide,
+      lengthGuide,
+    ]
+      .filter(Boolean)
+      .join(" ");
 
     const completion = await groq.chat.completions.create({
       messages: [
