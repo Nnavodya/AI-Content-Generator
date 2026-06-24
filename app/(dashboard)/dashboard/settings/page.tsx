@@ -123,15 +123,17 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="max-w-2xl space-y-6">
-      <div>
+    <div className="max-w-6xl">
+      <div className="mb-6">
         <h1 className="text-2xl font-bold">Profile Settings</h1>
         <p className="text-sm text-muted-foreground mt-1">
           Manage your account identity, security, and preferences.
         </p>
       </div>
 
-      {/* Account Information */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+          {/* Account Information */}
       <section className="rounded-2xl border border-border">
         <div className="flex items-center gap-2 px-5 py-4 border-b border-border">
           <User className="size-4 text-blue-600" />
@@ -149,6 +151,7 @@ export default function SettingsPage() {
               ref={fullNameRef}
               className="w-full border border-border rounded-lg p-2.5 text-sm"
               defaultValue={user?.fullName ?? ""}
+              autoComplete="name"
             />
           </div>
           <div>
@@ -166,9 +169,11 @@ export default function SettingsPage() {
             <label className="block mb-1.5 text-sm font-medium">Professional Bio</label>
             <input
               ref={bioRef}
+              name="professional-bio"
               className="w-full border border-border rounded-lg p-2.5 text-sm"
               placeholder="Content Strategist & AI Enthusiast..."
               defaultValue={(user?.unsafeMetadata?.bio as string) ?? ""}
+              autoComplete="off"
             />
           </div>
           <div className="flex items-center gap-3">
@@ -207,6 +212,7 @@ export default function SettingsPage() {
                 className="w-full border border-border rounded-lg p-2.5 text-sm"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
+                autoComplete="current-password"
               />
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
@@ -218,6 +224,7 @@ export default function SettingsPage() {
                   placeholder="Minimum 8 characters"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
+                  autoComplete="new-password"
                 />
               </div>
               <div>
@@ -228,6 +235,7 @@ export default function SettingsPage() {
                   placeholder="Repeat new password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
+                  autoComplete="new-password"
                 />
               </div>
             </div>
@@ -315,6 +323,37 @@ export default function SettingsPage() {
           </button>
         </div>
       </section>
+        </div>
+
+        <div className="space-y-6">
+          <div className="rounded-2xl border border-border p-5 text-center">
+            {user?.imageUrl ? (
+              <img
+                src={user.imageUrl}
+                alt={user.fullName ?? "User"}
+                className="size-16 rounded-full object-cover mx-auto mb-3"
+              />
+            ) : (
+              <span className="flex size-16 items-center justify-center rounded-full bg-muted text-lg font-medium mx-auto mb-3">
+                {user?.firstName?.[0] ?? "U"}
+              </span>
+            )}
+            <p className="font-semibold">{user?.fullName ?? "Account"}</p>
+            <p className="text-sm text-muted-foreground truncate">
+              {user?.primaryEmailAddress?.emailAddress}
+            </p>
+            <div className="mt-4 pt-4 border-t border-border text-xs text-muted-foreground">
+              Member since{" "}
+              {user?.createdAt
+                ? new Date(user.createdAt).toLocaleDateString("en-US", {
+                    month: "long",
+                    year: "numeric",
+                  })
+                : "—"}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
