@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Activity, ArrowRight, Sparkles, Zap, Cloud } from "lucide-react";
+import { Activity, ArrowRight, Sparkles, Zap, Cloud, Code2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -148,29 +148,68 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border py-10 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 font-semibold">
-            <span className="flex size-7 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-purple-600 text-white">
-              <Activity className="size-3.5" />
-            </span>
-            ContentFlow AI
-          </div>
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <a href="#features" className="hover:text-foreground">
-              Features
+      <footer className="bg-slate-900 text-slate-300 py-12 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-start justify-between gap-8">
+          <div className="max-w-xs">
+            <div className="flex items-center gap-2 font-semibold text-white mb-3">
+              <span className="flex size-7 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white">
+                <Activity className="size-3.5" />
+              </span>
+              ContentFlow AI
+            </div>
+            <p className="text-sm text-slate-400">
+              An AI-powered content workspace built with Next.js, Groq, and
+              Prisma.
+            </p>
+            <a
+              href="https://github.com/Nnavodya/AI-Content-Generator"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 mt-4 text-sm text-slate-300 hover:text-white transition-colors"
+            >
+              <Code2 className="size-4" />
+              View source on GitHub
             </a>
-            <Link href="/sign-in" className="hover:text-foreground">
-              Login
-            </Link>
-            <Link href="/sign-up" className="hover:text-foreground">
-              Sign Up
-            </Link>
+          </div>
+
+          <div className="flex gap-10">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wide text-slate-500 mb-3">
+                Product
+              </p>
+              <ul className="space-y-2 text-sm">
+                <li>
+                  <a href="#features" className="hover:text-white transition-colors">
+                    Features
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wide text-slate-500 mb-3">
+                Account
+              </p>
+              <ul className="space-y-2 text-sm">
+                <li>
+                  <Link href="/sign-in" className="hover:text-white transition-colors">
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/sign-up" className="hover:text-white transition-colors">
+                    Sign Up
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-        <p className="text-center text-xs text-muted-foreground mt-6">
-          © 2026 ContentFlow AI.
-        </p>
+
+        <div className="max-w-6xl mx-auto border-t border-slate-800 mt-10 pt-6">
+          <p className="text-center text-xs text-slate-500">
+            © 2026 ContentFlow AI. Built by Nethmi as a portfolio project.
+          </p>
+        </div>
       </footer>
     </div>
   );
