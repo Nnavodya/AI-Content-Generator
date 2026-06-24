@@ -30,7 +30,17 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json({ totalGenerated, recentActivity });
+    const byType = await prisma.content.groupBy({
+      by: ["contentType"],
+      where: { userId },
+      _count: { _all: true },
+    });
+
+    const typeBreakdown = byType
+      .map((t) => ({ contentType: t.contentType, count: t._count._all }))
+      .sort((a, b) => b.count - a.count);
+
+    return NextResponse.json({ totalGenerated, recentActivity, typeBreakdown });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
