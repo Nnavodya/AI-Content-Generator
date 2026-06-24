@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser, useClerk } from "@clerk/nextjs";
 import { User, Lock, SlidersHorizontal, Trash2, Moon } from "lucide-react";
+import { useDarkMode } from "@/hooks/use-dark-mode";
 
 export default function SettingsPage() {
   const { user, isLoaded } = useUser();
   const { signOut } = useClerk();
   const router = useRouter();
+  const { isDark, toggle: toggleDarkMode } = useDarkMode();
 
   const fullNameRef = useRef<HTMLInputElement>(null);
   const bioRef = useRef<HTMLInputElement>(null);
@@ -22,26 +24,7 @@ export default function SettingsPage() {
   const [passwordMessage, setPasswordMessage] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const [darkMode, setDarkMode] = useState(false);
-
   const [deleting, setDeleting] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("theme");
-    const isDark = stored === "dark";
-    // Hydrating UI state from a browser-only source right after mount is
-    // the correct place for this; there's no prop/derived-state alternative.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setDarkMode(isDark);
-    document.documentElement.classList.toggle("dark", isDark);
-  }, []);
-
-  const toggleDarkMode = () => {
-    const next = !darkMode;
-    setDarkMode(next);
-    document.documentElement.classList.toggle("dark", next);
-    localStorage.setItem("theme", next ? "dark" : "light");
-  };
 
   const handleSaveProfile = async () => {
     if (!user) return;
@@ -284,15 +267,15 @@ export default function SettingsPage() {
             <button
               type="button"
               role="switch"
-              aria-checked={darkMode}
+              aria-checked={isDark}
               onClick={toggleDarkMode}
               className={`relative h-6 w-11 rounded-full transition-colors ${
-                darkMode ? "bg-blue-600" : "bg-muted"
+                isDark ? "bg-blue-600" : "bg-muted"
               }`}
             >
               <span
                 className={`absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow transition-transform ${
-                  darkMode ? "translate-x-5" : ""
+                  isDark ? "translate-x-5" : ""
                 }`}
               />
             </button>
