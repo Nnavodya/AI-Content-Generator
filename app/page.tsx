@@ -187,7 +187,7 @@ export default function Home() {
 
         <div className="max-w-6xl mx-auto border-t border-slate-800 mt-10 pt-6">
           <p className="text-center text-xs text-slate-500">
-            © 2026 ContentFlow AI. Built by Tharindu as a portfolio project.
+            © 2026 ContentFlow AI. Built by Nethmi as a portfolio project.
           </p>
         </div>
       </footer>
